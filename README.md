@@ -8,7 +8,6 @@
 - **AlpineJS** — лёгкий реактивный слой на клиенте  
 - **TailwindCSS** — утилитарный CSS-фреймворк  
 - **PostgreSQL** — основная база данных (через pgxpool)  
-- **Docker** — для удобного развёртывания (опционально)
 
 Проект создаётся с готовой структурой, настройкой `justfile` для быстрых команд, поддержкой горячей перезагрузки и автоматической генерацией кода Templ.
 
@@ -159,12 +158,13 @@ just watch
 
 ---
 
-## Запуск в production
+## Запуск
 
 Соберите бинарник:
 
 ```bash
 just gen-templ
+just gen-style
 go build -o bin/app ./cmd/app
 ```
 
@@ -173,8 +173,6 @@ go build -o bin/app ./cmd/app
 ```bash
 just run-app
 ```
-
-в production окружении (предварительно установив нужные переменные в `.env`).
 
 ---
 
@@ -189,4 +187,4 @@ just run-app
 **LigeronAhill**  
 GitHub: [github.com/LigeronAhill](https://github.com/LigeronAhill)
 
-Если у вас возникли вопросы или предложения, создавайте **Issue** в репозитории. Удачи в разработке! 🚀
+Удачи в разработке! 🚀
