@@ -54,7 +54,7 @@ install-deps:
 
 # run application
 [group("app")]
-run-app: gen-templ
+run-app: gen-templ gen-style
     go run ./cmd/app/
 
 # generate templates
