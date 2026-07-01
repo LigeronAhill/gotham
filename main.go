@@ -111,8 +111,10 @@ func GenerateProject(cfg *ProjectConfig) error {
 		switch name {
 		case "env.template":
 			name = ".env"
+			fmt.Println(".env renamed")
 		case "gitignore.template":
 			name = ".gitignore"
+			fmt.Println(".gitignore renamed")
 		}
 		destPath := filepath.Join(cfg.EnvPrefixLower, relPath)
 		destDir := filepath.Dir(destPath)
@@ -129,7 +131,7 @@ func GenerateProject(cfg *ProjectConfig) error {
 		ext := filepath.Ext(path)
 		isTextFile := ext == ".go" || ext == ".mod" || ext == ".sum" ||
 			ext == ".yml" || ext == ".yaml" || ext == ".json" ||
-			ext == ".templ" || ext == ".sql" || ext == ".env" || name == "justfile"
+			ext == ".templ" || ext == ".sql" || ext == ".env" || name == "justfile" || name == ".env"
 
 		var data []byte
 		if isTextFile {
@@ -140,7 +142,6 @@ func GenerateProject(cfg *ProjectConfig) error {
 				contentStr = strings.ReplaceAll(contentStr, "{{ .EnvPrefix }}", cfg.EnvPrefix)
 				data = []byte(contentStr)
 			} else {
-				// Для остальных текстовых файлов используем шаблоны
 				tmpl, err := template.New(filepath.Base(path)).Parse(string(content))
 				if err != nil {
 					return err
