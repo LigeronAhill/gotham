@@ -108,8 +108,11 @@ func GenerateProject(cfg *ProjectConfig) error {
 			return nil
 		}
 		name := filepath.Base(path)
-		if name == "env.template" {
+		switch name {
+		case "env.template":
 			name = ".env"
+		case "gitignore.template":
+			name = ".gitignore"
 		}
 		destPath := filepath.Join(cfg.EnvPrefixLower, relPath)
 		destDir := filepath.Dir(destPath)

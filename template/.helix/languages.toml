@@ -1,0 +1,6 @@
+[[language]]
+name = "templ"
+language-servers = ["templ", "emmet-ls", "tailwindcss-ls"]
+# formatter = { command = "templ", args = ["fmt", "."] }
+indent = { tab-width = 4, unit = " " }
+auto-format = true
