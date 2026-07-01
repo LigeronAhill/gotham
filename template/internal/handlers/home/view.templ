@@ -1,0 +1,15 @@
+package home
+
+import "{{ .ModulePath }}/ui/layouts"
+
+templ view(token string) {
+	@layouts.BaseLayout(layouts.BaseLayoutProps{
+		Title:       "Home",
+		Description: "This is the home page",
+		CSRFToken:   token,
+	}) {
+		<main class="bg-slate-300 dark:bg-slate-800 dark:text-slate-300">
+			<h1>Home Page</h1>
+		</main>
+	}
+}

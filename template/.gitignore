@@ -1,0 +1,36 @@
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries and coverage
+*.test
+*.out
+coverage.out
+coverage
+coverage.html
+
+# Dependency/vendor
+vendor/
+
+# IDE / editor
+.idea/
+.vscode/
+.zed/
+.helix/
+*.swp
+*.swo
+.DS_Store
+
+# Templ
+*_templ.go
+
+# Env
+.env
+!.env.example
+
+# node
+node_modules

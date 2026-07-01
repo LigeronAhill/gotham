@@ -1,0 +1,15 @@
+package notfound
+
+import "{{ .ModulePath }}/ui/layouts"
+
+templ view() {
+	@layouts.BaseLayout(layouts.BaseLayoutProps{
+		Title:       "Page Not Found",
+		Description: "This page not found",
+	}) {
+		<main class="bg-slate-300 dark:bg-slate-800 dark:text-slate-300">
+			<h1>404</h1>
+			<p>Page doesn't exists</p>
+		</main>
+	}
+}

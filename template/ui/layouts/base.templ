@@ -1,0 +1,25 @@
+package layouts
+
+type BaseLayoutProps struct {
+	Title       string
+	Description string
+	CSRFToken   string
+}
+
+templ BaseLayout(props BaseLayoutProps) {
+	<html lang="ru" hx-headers={ templ.JSONString(map[string]string{"X-CSRF-Token": props.CSRFToken}) }>
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ props.Title } | {{ .ProjectName }}</title>
+			<meta name="description" content={ props.Description }/>
+			<link rel="stylesheet" href="/public/assets/css/tailwind.css"/>
+			<script defer src="/public/assets/js/cdn.min.js"></script>
+			<script src="/public/assets/js/htmx.min.js"></script>
+			<script src="/public/assets/js/theme.js"></script>
+		</head>
+		<body class="w-full min-h-screen dark:text-white dark:bg-black">
+			{ children... }
+		</body>
+	</html>
+}

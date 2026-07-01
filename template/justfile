@@ -1,0 +1,86 @@
+# https://just.systems
+
+set shell := ["zsh", "-uc"]
+set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
+set dotenv-load := true
+set quiet := true
+set export := true
+set no-exit-message := true
+
+host := env("{{ .EnvPrefix }}_HOST", "localhost")
+port := env("{{ .EnvPrefix }}_PORT", "3000")
+addr := "http://" + host + ":" + port
+
+# list all commands
+default:
+    just --list
+
+# format code
+[group("code quality")]
+fmt:
+    go fmt ./...
+
+# check code
+[group("code quality")]
+vet:
+    go vet ./...
+
+# run tests
+[group("tests")]
+test:
+    go test -v -race -cover ./...
+
+# check tests coverage
+[group("tests")]
+test-cover:
+    go test -v -race -coverprofile=coverage.out ./...
+    go tool cover -html=coverage.out
+
+# run linter
+[group("code quality")]
+lint:
+    golangci-lint run ./...
+
+# run full check
+[group("code quality")]
+check: fmt vet test lint
+
+# install dependencies
+[group("app")]
+install-deps:
+    npm install tailwindcss @tailwindcss/cli
+    go get -tool github.com/a-h/templ/cmd/templ@latest
+    go mod tidy
+
+# run application
+[group("app")]
+run-app: gen-templ
+    go run ./cmd/app/
+
+# generate templates
+[group("templ")]
+gen-templ:
+    go tool templ generate
+
+# watch for changes in templ files
+[no-exit-message]
+[group("templ")]
+watch-templ:
+    go tool templ generate --watch --proxy="{{ addr }}" --cmd="go run ./cmd/app/" --open-browser=false
+
+# generate tailwindcss styles
+[group("style")]
+gen-style:
+    npx @tailwindcss/cli -i ./input.css -o ./public/assets/css/tailwind.css
+
+# watch for changes in tailwindcss styles
+[no-exit-message]
+[group("style")]
+watch-style:
+    npx @tailwindcss/cli -i ./input.css -o ./public/assets/css/tailwind.css --watch
+
+# run application with hot reload
+[no-exit-message]
+[parallel]
+[group("app")]
+watch: watch-style watch-templ
