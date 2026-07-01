@@ -107,7 +107,13 @@ func GenerateProject(cfg *ProjectConfig) error {
 		if relPath == "" || strings.HasPrefix(relPath, "template") {
 			return nil
 		}
+		name := filepath.Base(path)
+		if name == "env.template" {
+			name = ".env"
+		}
 		destPath := filepath.Join(cfg.EnvPrefixLower, relPath)
+		destDir := filepath.Dir(destPath)
+		destPath = filepath.Join(destDir, name)
 		if d.IsDir() {
 			return os.MkdirAll(destPath, 0o755)
 		}
@@ -118,7 +124,6 @@ func GenerateProject(cfg *ProjectConfig) error {
 		}
 
 		ext := filepath.Ext(path)
-		name := filepath.Base(path)
 		isTextFile := ext == ".go" || ext == ".mod" || ext == ".sum" ||
 			ext == ".yml" || ext == ".yaml" || ext == ".json" ||
 			ext == ".templ" || ext == ".sql" || ext == ".env" || name == "justfile"
